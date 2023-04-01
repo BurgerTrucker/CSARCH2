@@ -2,7 +2,6 @@ function loadInputs(){
     const input = "<div class = \"inputBitBox\"><input value = \"0\" type = \"text\" class = \"inputBit\"></div>"
     $("#signBit").append(input);
     for(let i = 0; i < 11; i++){
-        console.log("hey ")
         $("#exponent").append(input);
     }
     for(let i = 0; i < 52; i++){
@@ -17,7 +16,6 @@ function loadInputs(){
 function nextDigit(current){
     if($(current).parent().next().length==0) {
         $(current).parents(".inputBox").next().find(".inputBits").children(":first").children(":first").focus();
-        console.log($(current).parents(".inputBox").next().find(".inputBits").children(":first").  children(":first"))
     }
     else $(current).parent().next().children().focus();
 }
@@ -25,7 +23,6 @@ function nextDigit(current){
 function previousDigit(current){
     if($(current).parent().prev().length==0) {
         $(current).parents(".inputBox").prev().find(".inputBits").children(":last").children(":first").focus();
-        console.log($(current).parents(".inputBox").prev().find(".inputBits").children(":last").  children(":first"))
     }
     else $(current).parent().prev().children().focus();
 }
@@ -45,10 +42,8 @@ function getInput(type){
         })
         $("#mantissa").children().each    (function(index, bitBox){
             ret = ret + $(bitBox).children(":first").val();
-            console.log(bitBox);
         })
     }
-    console.log(ret);
     return ret;
 }
 function updateOutput(type){
@@ -81,7 +76,6 @@ $(document).ready(function(){
             $(inputBit).focus();
     })
     $(".inputBit").on("focus", function (event){
-        console.log("focus in   ")
         var tmpStr = $(this).val()
         $(this).val("");
         $(this).val(tmpStr);
@@ -89,7 +83,6 @@ $(document).ready(function(){
         focus = this;
     })
     $(".inputBit").on("focusout", function(event){
-        console.log("focus out")
         $(this).parent().removeClass("focus");
     })
 
@@ -111,11 +104,9 @@ $(document).ready(function(){
         }
     })
     $(".inputBit").on("input", function (event){
-        console.log("INPUT")
         const type = $("#inputType").val();
         var character = $(this).val();
         character = character.substring(character.length-1)
-        console.log(character);
         if(isValidCharacter(type, character)){
             $(this).val(character)
 
@@ -140,6 +131,14 @@ $(document).ready(function(){
                 $("#binaryDiv").hide();
                 $("#hexadecimalDiv").show();
             }
+    })
+
+    $("#copy").on("click", async function(event) {
+
+        try {
+            await navigator.clipboard.writeText($("#output").text());
+        } catch (err) {
+        }
     })
 
 })
