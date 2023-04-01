@@ -107,6 +107,7 @@ $(document).ready(function(){
         const type = $("#inputType").val();
         var character = $(this).val();
         character = character.substring(character.length-1)
+        character=  character.toUpperCase();
         if(isValidCharacter(type, character)){
             $(this).val(character)
 
