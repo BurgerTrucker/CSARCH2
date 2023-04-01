@@ -1,0 +1,98 @@
+
+.inputBit{
+    width: 25px;
+    height: 35px;
+    padding: 0px;
+    overflow:hidden;
+    text-align:center;
+    outline: none;
+
+    border:none;
+    caret-color: transparent;
+    font-size: 15px;
+}
+.inputBitBox{
+    border: 1px solid rgb(47, 52, 56);
+    border-right: none;
+    border-radius: 3px;
+    position:relative;
+}
+.inputBitBox:last-child{
+    border-right: 1px solid rgb(47, 52, 56);
+}
+.focus:last-child{
+    border-right: 1px solid black;
+}
+
+
+.inputLabel{
+    text-align: center;
+}
+.inputBits{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+
+}
+
+.inputs{
+    display: flex;
+    flex-direction: row;
+    column-gap: 15px;
+}
+
+.focus{
+    border: 1px solid black;
+    outline: 0.1px solid black;
+    z-index:5;
+}
+@keyframes line-blink{
+    0%{
+        opacity:100;
+    }
+    50%{
+        opacity:0;
+    }
+
+    100%{
+        opacity:100;    border: 1px solid black;
+    }
+}
+.focus::after{
+    content: '';
+    position: absolute;
+    width: 50%;
+
+    height: 2px;
+    bottom: 2px;
+    left: 50%   ;
+    background: rgb(47, 52, 56);
+    transform: translate(-50%, 0);
+    animation: line-blink 1.06s steps(1) infinite;
+}
+
+.focus + .inputBitBox{
+    /*border-left-color:black;*/
+    border-left:none;
+}
+#title{
+
+}
+#content{
+    margin-left: auto;
+    margin-right:auto;
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+}
+#hexadecimalDiv{
+    display:none;
+}
+#outputTypeDiv{
+    margin-top:20px;
+}
+#outputDiv {
+    display: flex;
+    flex-direction: row;
+    margin-top: 10px;
+}

@@ -3,8 +3,70 @@
     <head>
         <meta charset="UTF-8">
         <title>Title</title>
-    </head>
-    <body>
+        <script src="libraries/jquery-3.6.4.js"></script>
+        <script src = fp64.js></script>
+        <script src = controller.js></script>
 
+        <link rel = "stylesheet" href="style.css">
+    </head>
+
+    <body>
+        <div id = "content">
+            <div id = "title">
+
+                <h2>IEEE-754 Binary-64 Floating Point Translator</h2>
+            </div>
+            <div id = "inputTypeDiv">
+                <label for = "inputType"> Input Type: </label>
+               <select id = "inputType">
+                   <option value = "binary">Binary</option>
+                   <option value = "hexadecimal">Hexadecimal</option>
+               </select>
+            </div>
+
+            <div class = "inputs" id = "binaryDiv">
+                <div class= "inputBox">
+                    <div class = "inputLabel">Sign</div>
+                    <div class = "inputBits" id = "signBit">
+
+                    </div>
+                </div>
+                <div class= "inputBox">
+                    <div class = "inputLabel">Exponent</div>
+                    <div class = "inputBits" id = "exponent">
+
+                    </div>
+                </div>
+                <div class= "inputBox">
+                    <div class = "inputLabel">Mantissa</div>
+                    <div class = "inputBits" id = "mantissa">
+
+                    </div>
+                </div>
+            </div>
+
+            <div class = "inputs" id = "hexadecimalDiv">
+                <div class= "inputBox">
+                    <div class = "inputLabel">Hexadecimal</div>
+                    <div class = "inputBits" id = "hexadecimal">
+
+                    </div>
+                </div>
+            </div>
+
+            <div id = "outputTypeDiv">
+                <label for = "outputType"> Output Type: </label>
+                <select id = "outputType">
+                    <option value = "fixed">Fixed point</option>
+                    <option value = "hexadecimal">Floating point</option>
+                </select>
+            </div>
+            <div id = "outputDiv">
+                <div id = "outputLabel">Output:  </div>
+                <div id = "output">
+                    0
+                </div>
+            </div>
+        </div>
     </body>
 </html>
