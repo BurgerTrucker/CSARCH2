@@ -3,9 +3,9 @@ function convertBinaryToDecimal(binaryStr){
     let signBit = parseInt(binaryStr.charAt(0));
     let exponentBits = binaryStr.substring(1,12);
     let mantissaBits = binaryStr.substring(12);
-    // console.log("Sign Bit: " + signBit)
-    // console.log("Exponent Bits: " + exponentBits)
-    // console.log("Mantissa Bits: " + mantissaBits)
+    console.log("Sign Bit: " + signBit)
+    console.log("Exponent Bits: " + exponentBits)
+    console.log("Mantissa Bits: " + mantissaBits)
 
     let exponent = parseInt(exponentBits, 2);
     // console.log("Exponent: " + exponent);
@@ -26,7 +26,6 @@ function convertBinaryToDecimal(binaryStr){
 
         mantissaVal = mantissaVal + parseInt(mantissaBits.charAt(i)) * Math.pow(2, -(i+1));
         // console.log( parseInt(mantissaBits.charAt(i)) * Math.pow(2, -(i+1)))
-        console.log(mantissaVal)
     }
     console.log("Decimal: " + mantissaVal);
     mantissaVal = mantissaVal + 1
