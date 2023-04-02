@@ -1,5 +1,5 @@
 
-$(document).ready(function(){
+
     function getInput(var1) {
         console.log("input: " + var1);
         let var2 = var1.split(" ");
@@ -24,7 +24,7 @@ $(document).ready(function(){
         return newVar
     }
 
-    function convertHexToBinary(hexStr){
+    function convertHexadecimalToBinary(hexStr){
         let binStr = ""
         for(let i = 0; i < hexStr.length; i++){
             let temp = parseInt(hexStr[i], 16).toString(2);
@@ -37,10 +37,10 @@ $(document).ready(function(){
         return binStr
     }
 
-    function convertToDecimal(binaryStr){
+    function convertBinaryToDecimal(binaryStr){
         console.log("binaryStr length: " + binaryStr)
         if (binaryStr.length === 16){
-            binaryStr = convertHexToBinary(binaryStr);
+            binaryStr = convertHexadecimalToBinary(binaryStr);
         }
         console.log("Binary Str: " + binaryStr);
         let signBit = parseInt(binaryStr.charAt(0));
@@ -134,19 +134,19 @@ $(document).ready(function(){
 
     //input: 16 digit hex OR 64 bit binary input
     //output: Decimal; fixed o floating point
-    $("#submit").on("click", function(){
-        let newVar = getInput(document.getElementById("inputBox").value)
-        if (newVar !== -1){
-            let finalAns = convertToDecimal(newVar)
-            console.log(finalAns);
-            let scientificRep = convertFixedToFloat(finalAns)
-            document.getElementById("errorMsg").innerHTML = '';
-            document.getElementById("output").innerHTML = '';
-            document.getElementById("scientific").innerHTML = '';
-            document.getElementById("output").innerHTML = finalAns;
-            document.getElementById("scientific").innerHTML = scientificRep;
+    // $("#submit").on("click", function(){
+    //     let newVar = getInput(document.getElementById("inputBox").value)
+    //     if (newVar !== -1){
+    //         let finalAns = convertBinaryToDecimal(newVar)
+    //         console.log(finalAns);
+    //         let scientificRep = convertFixedToFloat(finalAns)
+    //         document.getElementById("errorMsg").innerHTML = '';
+    //         document.getElementById("output").innerHTML = '';
+    //         document.getElementById("scientific").innerHTML = '';
+    //         document.getElementById("output").innerHTML = finalAns;
+    //         document.getElementById("scientific").innerHTML = scientificRep;
+    //
+    //     }
+    // });
 
-        }
-    });
-});
 
