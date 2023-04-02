@@ -70,7 +70,7 @@
         console.log("parsed mantissa bits: " + parseInt(mantissaBits, 10))
 
         //Special Case 1: +0, -0
-        if(signBit === 0 &&  parseInt(exponentBits, 10) === 0 && parseInt(mantissaBits, 10) === 0){
+        if(parseInt(exponentBits, 10) === 0 && parseInt(mantissaBits, 10) === 0){
             if(signBit === 0)
                 return "+0"
             else
