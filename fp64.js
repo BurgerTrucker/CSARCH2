@@ -19,6 +19,7 @@ $(document).ready(function(){
             document.getElementById("scientific").innerHTML = '';
             document.getElementById("errorMsg").innerHTML = "Invalid Input";
             newVar = -1;
+
         }
         return newVar
     }
