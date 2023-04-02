@@ -61,8 +61,7 @@ function getInput(type){
 function updateOutput(type){
     var input = getInput(type)
     var output;
-    if(type === "hexadecimal") output = convertHexadecimalToDecimal(input);
-    else if(type === "binary") output = convertBinaryToDecimal(input);
+    output = convertBinaryToDecimal(input);
 
     $("#output").text(output);
 }
