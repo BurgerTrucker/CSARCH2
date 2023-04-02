@@ -78,22 +78,34 @@
         }
         //Special Case 2: Denormalized
         else if(exponent === 0 && parseInt(mantissaBits, 10) !== 0){
-            return "Denormalized"
+            exponent = -1022;
+            console.log("Exponent: " + exponent);
+            for(let i = 0; i < mantissaBits.length; i++ ){
+
+                mantissaVal = mantissaVal + parseInt(mantissaBits.charAt(i)) * Math.pow(2, -(i+1));
+            }
+            console.log("Decimal: " + mantissaVal);
+            mantissaVal = mantissaVal * Math.pow(2, exponent);
+            console.log("Decimal: " + mantissaVal);
+            if(signBit){
+                mantissaVal = mantissaVal * -1
+            }
+            return "Denormalized Value: " + mantissaVal;
         }
         //Special Case 3: +inf, -inf
         else if(exponent  === 2047 && parseInt(mantissaBits, 10) === 0){
             if(signBit === 0)
-                return "+inf"
+                return "+Infinity"
             else
-                return "-inf"
+                return "-Infinity"
 
         }
         //Special Case 4: sNaN, qNan
         else if(exponent === 2047 && mantissaBits.charAt(0) === '0'){
-            return "sNan"
+            return "sNan - Signaling NaN"
         }
         else if(exponent  === 2047 && mantissaBits.charAt(0) === '1'){
-            return "qNan"
+            return "qNan - Quiet NaN"
         }
 
         else{
