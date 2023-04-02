@@ -1,29 +1,3 @@
-
-
-    function getInput(var1) {
-        console.log("input: " + var1);
-        let var2 = var1.split(" ");
-        let newVar = var2.join("");
-        console.log("trimmed input: " + newVar);
-        //if input is hex must have 16 hex digits
-        if(newVar.length === 16){
-            const regex = /[0-9A-Fa-f]{16}/g;
-            if(regex.test(newVar) ===  false)
-                newVar = -1
-
-        }
-        //if input is binary must have 64 bits
-        else if (newVar.length !== 64) {
-            document.getElementById("errorMsg").innerHTML = '';
-            document.getElementById("output").innerHTML = '';
-            document.getElementById("scientific").innerHTML = '';
-            document.getElementById("errorMsg").innerHTML = "Invalid Input";
-            newVar = -1;
-
-        }
-        return newVar
-    }
-
     function convertHexadecimalToBinary(hexStr){
         let binStr = ""
         for(let i = 0; i < hexStr.length; i++){
@@ -125,7 +99,6 @@
             }
             return mantissaVal;
         }
-
     }
 
     function convertFixedToFloat(decimalStr){
@@ -145,20 +118,4 @@
 
 
     //input: 16 digit hex OR 64 bit binary input
-    //output: Decimal; fixed o floating point
-    // $("#submit").on("click", function(){
-    //     let newVar = getInput(document.getElementById("inputBox").value)
-    //     if (newVar !== -1){
-    //         let finalAns = convertBinaryToDecimal(newVar)
-    //         console.log(finalAns);
-    //         let scientificRep = convertFixedToFloat(finalAns)
-    //         document.getElementById("errorMsg").innerHTML = '';
-    //         document.getElementById("output").innerHTML = '';
-    //         document.getElementById("scientific").innerHTML = '';
-    //         document.getElementById("output").innerHTML = finalAns;
-    //         document.getElementById("scientific").innerHTML = scientificRep;
-    //
-    //     }
-    // });
-
 

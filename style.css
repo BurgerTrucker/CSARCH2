@@ -42,6 +42,7 @@
     flex-direction: row;
     column-gap: 15px;
     margin-top:20px;
+    align-items:center;
 }
 
 .focus{
@@ -87,6 +88,7 @@
     display:flex;
     flex-direction: column;
     align-items: center;
+
 }
 #hexadecimalDiv{
     display:none;
@@ -101,4 +103,29 @@
 }
 #copy{
     margin-left: 15px;
+}
+#mantissa{
+}
+.break{
+    clear:both;
+    flex-basis: 100%;
+    height: 0;
+    border: 1px solid red;
+}
+.lastDigit{
+    border-right: 1px solid rgb(47, 52, 56);
+    width: 100px;
+}
+#mantissa1{
+    margin-top:5px;
+}
+br{
+    height: 2px;
+}
+
+.green{
+    background-color: #e4fce3;
+}
+.red{
+    background-color: #ffeded;
 }

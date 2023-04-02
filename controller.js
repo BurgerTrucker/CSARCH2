@@ -1,28 +1,37 @@
 function loadInputs(){
-    const input = "<div class = \"inputBitBox\"><input value = \"0\" type = \"text\" class = \"inputBit\"></div>"
-    $("#signBit").append(input);
+    const bitInput = "<div class = \"inputBitBox\"><input value = \"0\" type = \"text\" class = \"inputBit red\"></div>"
+    const hexInput = "<div class = \"inputBitBox\"><input value = \"0\" type = \"text\" class = \"inputBit\"></div>"
+    $("#signBit").append(bitInput);
     for(let i = 0; i < 11; i++){
-        $("#exponent").append(input);
+        $("#exponent").append(bitInput);
     }
-    for(let i = 0; i < 52; i++){
-        $("#mantissa").append(input);
+    for(let i = 0; i < 26; i++){
+            $("#mantissa").append(bitInput)
     }
-
+    for(let i = 0; i < 26; i++){
+        $("#mantissa1").append(bitInput)
+    }
     for(let i = 0; i < 16; i++){
-        $("#hexadecimal").append(input);
+        $("#hexadecimal").append(hexInput);
     }
 }
 
 function nextDigit(current){
     if($(current).parent().next().length==0) {
-        $(current).parents(".inputBox").next().find(".inputBits").children(":first").children(":first").focus();
+        if($(current).parents(".inputBits").next(".inputBits").length==0)
+          $(current).parents(".inputBox").next().find(".inputBits").children(":first").children(":first").focus();
+        else
+            $(current).parents(".inputBits").next().children(":first").children(":first").focus();
     }
     else $(current).parent().next().children().focus();
 }
 
 function previousDigit(current){
     if($(current).parent().prev().length==0) {
-        $(current).parents(".inputBox").prev().find(".inputBits").children(":last").children(":first").focus();
+        if($(current).parents(".inputBits").prev(".inputBits").length==0)
+            $(current).parents(".inputBox").prev().find(".inputBits").children(":last").children().focus();
+        else
+            $(current).parents(".inputBits").prev().children(":last").children().focus();
     }
     else $(current).parent().prev().children().focus();
 }
@@ -41,6 +50,9 @@ function getInput(type){
             ret = ret + $(bitBox).children(":first").val();
         })
         $("#mantissa").children().each    (function(index, bitBox){
+            ret = ret + $(bitBox).children(":first").val();
+        })
+        $("#mantissa1").children().each    (function(index, bitBox){
             ret = ret + $(bitBox).children(":first").val();
         })
     }
@@ -111,7 +123,8 @@ $(document).ready(function(){
             $(this).val(character)
 
             nextDigit(this);
-
+            event.preventDefault();
+            $(this).change();
         }else{
             $(this).val("0")
             event.preventDefault();
@@ -119,6 +132,16 @@ $(document).ready(function(){
     })
     $(".inputBit").on("change", function(event){
         const type = $("#inputType").val();
+        const character= $(this).val();
+        if(type === "binary"){
+            if (character === "1") {
+                $(this).addClass("green")
+                $(this).removeClass("red");
+            } else {
+                $(this).addClass("red");
+                $(this).addClass("green");
+            }
+        }
         updateOutput(type)
     })
 
@@ -131,6 +154,7 @@ $(document).ready(function(){
                 $("#binaryDiv").hide();
                 $("#hexadecimalDiv").show();
             }
+            updateOutput(type);
     })
 
     $("#copy").on("click", async function(event) {
