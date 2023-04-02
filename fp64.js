@@ -11,6 +11,9 @@
         return binStr
     }
 
+    function convertHexadecimalToDecimal(hexStr){
+        return convertBinaryToDecimal(convertHexadecimalToBinary(hexStr));
+    }
     function convertBinaryToDecimal(binaryStr){
         console.log("binaryStr length: " + binaryStr)
         if (binaryStr.length === 16){
@@ -76,10 +79,10 @@
         }
         //Special Case 4: sNaN, qNan
         else if(exponent === 2047 && mantissaBits.charAt(0) === '0'){
-            return "sNan - Signaling NaN"
+            return "sNan/Signaling NaN"
         }
         else if(exponent  === 2047 && mantissaBits.charAt(0) === '1'){
-            return "qNan - Quiet NaN"
+            return "qNan/Quiet NaN"
         }
 
         else{

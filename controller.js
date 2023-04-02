@@ -59,12 +59,19 @@ function getInput(type){
     return ret;
 }
 function updateOutput(type){
-    var input = getInput(type)
+    const input = getInput(type)
+    const outputType = $("#outputType").val();
     var output;
-    output = convertBinaryToDecimal(input);
+    if(type === "hexadecimal") output = convertHexadecimalToDecimal(input);
+    else if(type === "binary") output = convertBinaryToDecimal(input);
+
+    if(outputType ==="float"){
+        output = convertFixedToFloat(output);
+    }
 
     $("#output").text(output);
 }
+
 
 function isValidCharacter(type, character){
     if(type === "hexadecimal"){
@@ -155,6 +162,11 @@ $(document).ready(function(){
                 $("#hexadecimalDiv").show();
             }
             updateOutput(type);
+    })
+
+    $("#outputType").on("change", function(event){
+        const type = $("#inputType").val();
+        updateOutput(type)
     })
 
     $("#copy").on("click", async function(event) {
