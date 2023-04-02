@@ -5,7 +5,6 @@ $(document).ready(function(){
         let var2 = var1.split(" ");
         let newVar = var2.join("");
         console.log("trimmed input: " + newVar);
-
         //if input is hex must have 16 hex digits
         if(newVar.length === 16){
             const regex = /[0-9A-Fa-f]{16}/g;
