@@ -119,6 +119,13 @@
         }
     }
 
+    function convertFixedBinaryToDecimal(){
+        return "0";
+    }
+    function convertFixedHexToDecimal(){
+        return "0";
+    }
+
 
     //input: 16 digit hex OR 64 bit binary input
 

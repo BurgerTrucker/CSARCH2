@@ -1,7 +1,9 @@
+var numInput;
 function loadInputs(){
     const bitInput = "<div class = \"inputBitBox\"><input value = \"0\" type = \"text\" class = \"inputBit red\"></div>"
     const hexInput = "<div class = \"inputBitBox\"><input value = \"0\" type = \"text\" class = \"inputBit\"></div>"
     $("#signBit").append(bitInput);
+
     for(let i = 0; i < 11; i++){
         $("#exponent").append(bitInput);
     }
@@ -13,6 +15,40 @@ function loadInputs(){
     }
     for(let i = 0; i < 16; i++){
         $("#hexadecimal").append(hexInput);
+    }
+}
+
+function loadFixedPoint(){
+    var numFraction = $("#numFraction").val()
+    numInput = numFraction;
+    var numInt = 63 -numFraction
+    const numRowsFraction =Math.ceil( numFraction / 26);
+    const numRowsInteger = Math.ceil((numInt)/26);
+    const inputBits = "<div class = \"inputBits\"> </div>"
+    const bitInput = "<div class = \"inputBitBox\"><input value = \"0\" type = \"text\" class = \"inputBit red\"></div>"
+
+    var row = $(inputBits);
+    $("#signBox").children(".inputBits").remove();
+    $("#integerBox").children(".inputBits").remove();
+    $("#fractionBox").children(".inputBits").remove();
+    $("#signBox").append(row);
+    row.append(bitInput)
+    for(let i = 0; i < numRowsInteger; i++){
+         row = $(inputBits);
+        $("#integerBox").append(row);
+        for(let j = 0; j < 26 && j < numInt; j++){
+            row.append(bitInput);
+        }
+        numInt-=26;
+    }
+
+    for(let i = 0; i < numRowsFraction; i++){
+        row = $(inputBits);
+        $("#fractionBox").append(row);
+        for(let j = 0; j < 26 && j < numFraction; j++){
+            row.append(bitInput);
+        }
+        numFraction-=26;
     }
 }
 
@@ -36,37 +72,40 @@ function previousDigit(current){
     else $(current).parent().prev().children().focus();
 }
 
-function getInput(type){
+function getInput(inputType, outputType){
     var ret = ""
-    if(type === "hexadecimal"){
+    if(inputType === "hexadecimal"){
         $("#hexadecimal").children().each(function(index, hexDigitBox){
             ret = ret + $(hexDigitBox).children(":first").val();
         })
-    }else if(type ==="binary"){
-        $("#signBit").children().each    (function(index, bitBox){
-            ret = ret + $(bitBox).children(":first").val();
-        })
-        $("#exponent").children().each    (function(index, bitBox){
-            ret = ret + $(bitBox).children(":first").val();
-        })
-        $("#mantissa").children().each    (function(index, bitBox){
-            ret = ret + $(bitBox).children(":first").val();
-        })
-        $("#mantissa1").children().each    (function(index, bitBox){
-            ret = ret + $(bitBox).children(":first").val();
-        })
+    }else if(inputType ==="binary"){
+        if(outputType === "float") {
+            $("#binaryDiv").find(".inputBit").each(function (index, input) {
+                ret = ret + $(input).val();
+            })
+        }else{
+            $("#binaryFixedDiv").find(".inputBit").each(function (index, input) {
+                ret = ret + $(input).val();
+            })
+        }
     }
     return ret;
 }
 function updateOutput(type){
-    const input = getInput(type)
     const outputType = $("#outputType").val();
+    const input = getInput(type, outputType)
+
     var output;
-    if(type === "hexadecimal") output = convertHexadecimalToDecimal(input);
-    else if(type === "binary") output = convertBinaryToDecimal(input);
+
 
     if(outputType ==="float"){
-        output = convertFixedToFloat(output);
+        if(type === "hexadecimal") output = convertHexadecimalToDecimal(input);
+        else if(type === "binary") output = convertBinaryToDecimal(input);
+
+    }else{
+        const numFraction = $("#numFraction").val();
+        if(type === "hexadecimal") output = convertFixedHexToDecimal(input, numFraction);
+        else if(type === "binary") output = convertFixedBinaryToDecimal(input, numFraction);
     }
 
     $("#output").text(output);
@@ -85,26 +124,29 @@ function isValidCharacter(type, character){
 }
 $(document).ready(function(){
     loadInputs();
-
-    $(".inputBit").on("click mousedown mouseup", function(event){
+    loadFixedPoint()
+    $(".inputBox").on("click mousedown mouseup", ".inputBitBox",function(event){
         event.preventDefault()
     })
-    $(".inputBitBox").on("mousedown", function(event){
+    $(".inputBox").on("mousedown", ".inputBitBox", function(event){
+            console.log("CLICKED")
             const inputBit = $(this).find(".inputBit");
+            console.log(inputBit)
             $(inputBit).focus();
     })
-    $(".inputBit").on("focus", function (event){
+    $(".inputBox").on("focus", ".inputBit",function (event){
+        console.log("FOCUSED")
         var tmpStr = $(this).val()
         $(this).val("");
         $(this).val(tmpStr);
         $(this).parent().addClass("focus")
         focus = this;
     })
-    $(".inputBit").on("focusout", function(event){
+    $(".inputBox").on("focusout", ".inputBit", function(event){
         $(this).parent().removeClass("focus");
     })
 
-    $(".inputBit").on("keydown", function(event){
+    $(".inputBox").on("keydown",".inputBit", function(event){
         var key = event.which||event.keyCode ;
         if(key === 8){
             event.preventDefault();
@@ -121,7 +163,7 @@ $(document).ready(function(){
             nextDigit(this);
         }
     })
-    $(".inputBit").on("input", function (event){
+    $(".inputBox").on("input", ".inputBit", function (event){
         const type = $("#inputType").val();
         var character = $(this).val();
         character = character.substring(character.length-1)
@@ -137,7 +179,7 @@ $(document).ready(function(){
             event.preventDefault();
         }
     })
-    $(".inputBit").on("change", function(event){
+    $(".inputBox").on("change", ".inputBit", function(event){
         const type = $("#inputType").val();
         const character= $(this).val();
         if(type === "binary"){
@@ -160,12 +202,24 @@ $(document).ready(function(){
             }else if(type === "hexadecimal"){
                 $("#binaryDiv").hide();
                 $("#hexadecimalDiv").show();
+                $("#binaryFixedDiv").hide();
             }
             updateOutput(type);
     })
 
     $("#outputType").on("change", function(event){
         const type = $("#inputType").val();
+        const outputType = $(this).val();
+
+        if(outputType ==="fixed"){
+            $("#binaryFixedDiv").show().css("display", "flex");
+            $("#binaryDiv").hide();
+            $("#numFractionDiv").show();
+        }else{
+            $("#binaryFixedDiv").hide();
+            $("#binaryDiv").show()
+            $("#numFractionDiv").hide();
+        }
         updateOutput(type)
     })
 
@@ -175,6 +229,25 @@ $(document).ready(function(){
             await navigator.clipboard.writeText($("#output").text());
         } catch (err) {
         }
+    })
+
+    $("#numFraction").on("change", function(event){
+        loadFixedPoint();
+
+        updateOutput($("#inputType").val());
+        console.log("chagne")
+    })
+    $("#numFraction").on("input", function(event){
+        var key = event.which||event.keyCode ;
+
+        const num = $(this).val();
+        if(num > 63 || num < 0){
+            event.preventDefault();
+            $(this).val(numInput);
+        }else{
+            numInput = parseInt($(this).val());
+        }
+
     })
 
 })
