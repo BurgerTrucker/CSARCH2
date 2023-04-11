@@ -64,7 +64,6 @@ function updateOutput(type){
         if(type === "hexadecimal") output = convertFixedToFloat(convertHexadecimalToDecimal(input));
         else if(type === "binary") output = convertFixedToFloat(convertBinaryToDecimal(input));
     }
-    console.log("jdflks")
     $("#output").text(output);
 }
 
@@ -85,13 +84,10 @@ $(document).ready(function(){
         event.preventDefault()
     })
     $(".inputBox").on("mousedown", ".inputBitBox", function(event){
-            console.log("CLICKED")
             const inputBit = $(this).find(".inputBit");
-            console.log(inputBit)
             $(inputBit).focus();
     })
     $(".inputBox").on("focus", ".inputBit",function (event){
-        console.log("FOCUSED")
         var tmpStr = $(this).val()
         $(this).val("");
         $(this).val(tmpStr);
