@@ -56,8 +56,6 @@ function updateOutput(type){
     const input = getInput(type, outputType)
 
     var output;
-
-
     if(outputType ==="fixed"){
         if(type === "hexadecimal") output = convertHexadecimalToDecimal(input);
         else if(type === "binary") output = convertBinaryToDecimal(input);
@@ -66,7 +64,7 @@ function updateOutput(type){
         if(type === "hexadecimal") output = convertFixedToFloat(convertHexadecimalToDecimal(input));
         else if(type === "binary") output = convertFixedToFloat(convertBinaryToDecimal(input));
     }
-
+    console.log("jdflks")
     $("#output").text(output);
 }
 

@@ -67,7 +67,7 @@
             if(signBit){
                 mantissaVal = mantissaVal * -1
             }
-            return "Denormalized Value: " + mantissaVal;
+            return mantissaVal+ " (Denormalized Value)" ;
         }
         //Special Case 3: +inf, -inf
         else if(exponent  === 2047 && parseInt(mantissaBits, 10) === 0){
@@ -100,7 +100,7 @@
             if(signBit){
                 mantissaVal = mantissaVal * -1
             }
-            return mantissaVal;
+            return "" + mantissaVal;
         }
     }
 
@@ -108,8 +108,10 @@
         console.log("Decimal Str: " + decimalStr)
         let decimal = parseFloat(decimalStr);
         console.log("decimal parse int convert fixed to float: " + decimal)
-        if(decimal === 0){
-            return "0";
+        console.log(typeof decimalStr);
+        if(decimalStr === "+0" || decimalStr === "-0" || decimalStr === "qNan/Quiet NaN" || decimalStr === "sNan/Signaling NaN" || decimalStr === "+Infinity" || decimalStr === "-Infinity"
+            || decimalStr.includes("Denormalized")){
+            return decimalStr;
         }
         else{
             let exponent = Math.floor(Math.log10(Math.abs(decimal)))
@@ -119,11 +121,14 @@
         }
     }
 
-    function convertFixedBinaryToDecimal(){
-        return "0";
-    }
-    function convertFixedHexToDecimal(){
-        return "0";
+
+    function toPlainString(num) {
+        return (''+ +num).replace(/(-?)(\d*)\.?(\d*)e([+-]\d+)/,
+            function(a,b,c,d,e) {
+                return e < 0
+                    ? b + '0.' + Array(1-e-c.length).join(0) + c + d
+                    : b + c + d + Array(e-d.length+1).join(0);
+            });
     }
 
 
