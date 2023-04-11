@@ -18,40 +18,6 @@ function loadInputs(){
     }
 }
 
-function loadFixedPoint(){
-    var numFraction = $("#numFraction").val()
-    numInput = numFraction;
-    var numInt = 63 -numFraction
-    const numRowsFraction =Math.ceil( numFraction / 26);
-    const numRowsInteger = Math.ceil((numInt)/26);
-    const inputBits = "<div class = \"inputBits\"> </div>"
-    const bitInput = "<div class = \"inputBitBox\"><input value = \"0\" type = \"text\" class = \"inputBit red\"></div>"
-
-    var row = $(inputBits);
-    $("#signBox").children(".inputBits").remove();
-    $("#integerBox").children(".inputBits").remove();
-    $("#fractionBox").children(".inputBits").remove();
-    $("#signBox").append(row);
-    row.append(bitInput)
-    for(let i = 0; i < numRowsInteger; i++){
-         row = $(inputBits);
-        $("#integerBox").append(row);
-        for(let j = 0; j < 26 && j < numInt; j++){
-            row.append(bitInput);
-        }
-        numInt-=26;
-    }
-
-    for(let i = 0; i < numRowsFraction; i++){
-        row = $(inputBits);
-        $("#fractionBox").append(row);
-        for(let j = 0; j < 26 && j < numFraction; j++){
-            row.append(bitInput);
-        }
-        numFraction-=26;
-    }
-}
-
 function nextDigit(current){
     if($(current).parent().next().length==0) {
         if($(current).parents(".inputBits").next(".inputBits").length==0)
@@ -79,15 +45,9 @@ function getInput(inputType, outputType){
             ret = ret + $(hexDigitBox).children(":first").val();
         })
     }else if(inputType ==="binary"){
-        if(outputType === "float") {
             $("#binaryDiv").find(".inputBit").each(function (index, input) {
                 ret = ret + $(input).val();
             })
-        }else{
-            $("#binaryFixedDiv").find(".inputBit").each(function (index, input) {
-                ret = ret + $(input).val();
-            })
-        }
     }
     return ret;
 }
@@ -98,14 +58,13 @@ function updateOutput(type){
     var output;
 
 
-    if(outputType ==="float"){
+    if(outputType ==="fixed"){
         if(type === "hexadecimal") output = convertHexadecimalToDecimal(input);
         else if(type === "binary") output = convertBinaryToDecimal(input);
 
     }else{
-        const numFraction = $("#numFraction").val();
-        if(type === "hexadecimal") output = convertFixedHexToDecimal(input, numFraction);
-        else if(type === "binary") output = convertFixedBinaryToDecimal(input, numFraction);
+        if(type === "hexadecimal") output = convertFixedToFloat(convertHexadecimalToDecimal(input));
+        else if(type === "binary") output = convertFixedToFloat(convertBinaryToDecimal(input));
     }
 
     $("#output").text(output);
@@ -124,7 +83,6 @@ function isValidCharacter(type, character){
 }
 $(document).ready(function(){
     loadInputs();
-    loadFixedPoint()
     $(".inputBox").on("click mousedown mouseup", ".inputBitBox",function(event){
         event.preventDefault()
     })
@@ -202,24 +160,12 @@ $(document).ready(function(){
             }else if(type === "hexadecimal"){
                 $("#binaryDiv").hide();
                 $("#hexadecimalDiv").show();
-                $("#binaryFixedDiv").hide();
             }
             updateOutput(type);
     })
 
     $("#outputType").on("change", function(event){
         const type = $("#inputType").val();
-        const outputType = $(this).val();
-
-        if(outputType ==="fixed"){
-            $("#binaryFixedDiv").show().css("display", "flex");
-            $("#binaryDiv").hide();
-            $("#numFractionDiv").show();
-        }else{
-            $("#binaryFixedDiv").hide();
-            $("#binaryDiv").show()
-            $("#numFractionDiv").hide();
-        }
         updateOutput(type)
     })
 
@@ -231,23 +177,5 @@ $(document).ready(function(){
         }
     })
 
-    $("#numFraction").on("change", function(event){
-        loadFixedPoint();
-
-        updateOutput($("#inputType").val());
-        console.log("chagne")
-    })
-    $("#numFraction").on("input", function(event){
-        var key = event.which||event.keyCode ;
-
-        const num = $(this).val();
-        if(num > 63 || num < 0){
-            event.preventDefault();
-            $(this).val(numInput);
-        }else{
-            numInput = parseInt($(this).val());
-        }
-
-    })
 
 })
